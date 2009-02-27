@@ -1,0 +1,34 @@
+#!/usr/bin/perl -w
+use strict;
+use vars qw(%PREREQ %RECOMMEND);
+use lib 'lib';
+
+# copy-paste from Sys::Info::Constants
+BEGIN {
+    if ( ! defined &OSID ) {
+        my %OS = qw(
+            MSWin32   Windows
+            MSWin64   Windows
+            linux     Linux
+        );
+        my $ID = $OS{ $^O } || 'Unknown';
+        *OSID = sub { "$ID" }
+    }
+}
+
+%PREREQ = (
+   'IO::File'                   => 0,
+   'Test::More'                 => '0.40',
+   'Sys::Info::Base'            => '0.69_01',
+   'Sys::Info::Driver::Unknown' => '0.69_01',
+);
+
+$PREREQ{'Sys::Info::Driver::' . OSID } = '0.69_01';
+
+if (OSID eq 'Unknown') {
+   $RECOMMEND{'Unix::Processors'} = 0 ;
+}
+
+1;
+
+__END__
