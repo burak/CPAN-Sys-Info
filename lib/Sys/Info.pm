@@ -5,6 +5,7 @@ use Carp qw( croak );
 use Sys::Info::Constants qw( OSID );
 
 $VERSION = '0.69_01';
+@EXPORT_OK = qw( OSID );
 
 __PACKAGE__->_mk_object( $_ ) for qw( os device );
 
@@ -148,6 +149,12 @@ returns the name of this server. Returns C<undef> otherwise.
 =head2 cpu
 
 Deprecated. Use the device() method instead.
+
+=head1 CONSTANTS
+
+=head2 OSID
+
+Returns the OS identifier.
 
 =head1 SEE ALSO
 
