@@ -12,7 +12,7 @@ BEGIN {
             linux     Linux
         );
         my $ID = $OS{ $^O } || 'Unknown';
-        *OSID = sub { "$ID" }
+        *OSID = sub () { "$ID" }
     }
 }
 
