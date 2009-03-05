@@ -26,7 +26,7 @@ BEGIN {
 $PREREQ{'Sys::Info::Driver::' . OSID } = '0.69_01';
 
 if (OSID eq 'Unknown') {
-   $RECOMMEND{'Unix::Processors'} = 0 ;
+   $RECOMMEND{'Unix::Processors'} = 0;
 }
 
 1;

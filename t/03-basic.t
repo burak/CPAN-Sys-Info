@@ -1,6 +1,6 @@
 #!/usr/bin/env perl -w
 use strict;
-use Sys::Info;
+use Sys::Info qw(OSID);
 use Data::Dumper;
 use Test::More qw( no_plan );
 use constant NA => 'N/A';
