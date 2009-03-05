@@ -2,7 +2,7 @@ Revision history for Perl extension Sys::Info.
 
 Time zone is GMT+2.
 
-0.69_01 Thu Mar  5 03:29:41 2009
+0.69_01 Thu Mar  5 03:41:57 2009
     => Removed deprecated parts.
     => Moved drivers and base classes into separate distributions. This distro
        is now something like Task::, but has some function of its own.
