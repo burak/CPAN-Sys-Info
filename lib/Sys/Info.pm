@@ -7,7 +7,7 @@ use Sys::Info::Constants qw( OSID );
 $VERSION   = '0.69_01';
 @EXPORT_OK = qw( OSID );
 
-__PACKAGE__->_mk_object( $_ ) for qw( os device );
+__PACKAGE__->_mk_object( $_ ) for qw( OS Device );
 
 sub import {
     my $class  = shift;
@@ -72,10 +72,11 @@ sub httpd {
 
 sub _mk_object {
     my $self  = shift;
-    my $id    = ucfirst lc(shift || croak "_mk_object() needs a name");
-    my $class = 'Sys::Info::' . $id;
+    my $name  = shift || croak "_mk_object() needs a name";
+    my $class = 'Sys::Info::' . $name;
     (my $file = $class) =~ s{::}{/}xmsg;
-    return sub { shift; require "$file.pm"; return "$class"->new(@_) };
+    no strict qw(refs);
+    *{ lc $name } = sub { shift; require "$file.pm"; return "$class"->new(@_) };
 }
 
 sub _legacy_perl { # function
