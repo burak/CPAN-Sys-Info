@@ -26,9 +26,9 @@ BEGIN {
 );
 
 %PREREQ = (
-   'IO::File'                   => 0,
-   'Sys::Info::Base'            => '0.69_10',
-   'Sys::Info::Driver::' . OSID => '0.69_10',
+   'IO::File'                     => 0,
+   'Sys::Info::Base'              => '0.69_10',
+   'Sys::Info::Driver::' . OSID() => '0.69_10',
 );
 
 1;
