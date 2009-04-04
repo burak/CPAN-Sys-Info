@@ -23,7 +23,14 @@ my %meta = $os->meta;
 
 my @probe;
 
+my %bit = (
+   cpu => $cpu->bitness,
+   os  => $os->bitness,
+);
+map { $bit{$_} ||= '??' } keys %bit;
+
 @probe = eval {(
+   [ "Sys::Info Version"         => Sys::Info->VERSION                     ],
    [ "Perl Version"              => $i->perl_long                          ],
    [ "Host Name"                 => $os->host_name                         ],
    [ "OS Name"                   => $os->name( long => 1, edition => 1 )   ],
@@ -31,6 +38,7 @@ my @probe;
    [ "OS Manufacturer"           => $meta{'manufacturer'}        || $NA    ],
    [ "OS Configuration"          => $os->product_type            || $NA    ],
    [ "OS Build Type"             => $meta{'build_type'}          || $NA    ],
+   [ "Running on"                => "$bit{cpu}bit CPU & $bit{os}bit OS"    ],
    [ "Registered Owner"          => $meta{'owner'}               || $NA    ],
    [ "Registered Organization"   => $meta{'organization'}        || $NA    ],
    [ "Product ID"                => $meta{'product_id'}          || $NA    ],
