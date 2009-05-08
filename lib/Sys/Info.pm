@@ -147,10 +147,6 @@ This method is just a combination of C<perl> & C<perl_build>.
 If the code is used under a HTTP server and this server is recognised,
 returns the name of this server. Returns C<undef> otherwise.
 
-=head2 cpu
-
-Deprecated. Use the device() method instead.
-
 =head1 CONSTANTS
 
 =head2 OSID
