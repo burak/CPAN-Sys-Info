@@ -5,6 +5,7 @@ use lib qw(../Sys-Info-Device-BIOS/lib);
 use vars qw( $VERSION );
 use POSIX qw(locale_h);
 use Sys::Info;
+use Sys::Info::Constants qw(NEW_PERL);
 use Time::Elapsed qw( elapsed );
 use Number::Format;
 use Text::Table;
@@ -20,6 +21,7 @@ my $up   = elapsed $os->tick_count;
 my $NA   = 'N/A';
 my $NF   = Number::Format->new( THOUSANDS_SEP => q{,}, DECIMAL_POINT => q{.} );
 my %meta = $os->meta;
+my $need_chcp = $os->is_winnt && $ENV{PROMPT};
 
 my @probe;
 
@@ -69,6 +71,17 @@ map { $bit{$_} ||= '??' } keys %bit;
 )};
 
 die "Error fetching information: $@" if $@;
+
+my $oldcp;
+if ( $need_chcp ) {
+   chomp($oldcp = (split /:\s?/, qx(chcp))[-1]);
+   system(chcp => 65001, '2>nul', '1>nul') if $oldcp; # try to change it to unicode
+   eval q{ binmode STDOUT, ':utf8' } if NEW_PERL;
+}
+
+END {
+   system(chcp => $oldcp, '2>nul', '1>nul') if $need_chcp && $oldcp;
+}
 
 my @titles = ( "FIELD\n=====", "VALUE\n=====");
 @titles = ( "", "");
