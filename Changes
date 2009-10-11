@@ -4,6 +4,7 @@ Time zone is GMT+2.
 
 0.73 Sun Jun  7 03:05:56 2009
     => Bump version for new stable release.
+    => Perl::Critic refactoring.
 
 0.72 Thu Apr 23 17:22:31 2009
     => Update builder.

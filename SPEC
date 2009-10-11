@@ -19,6 +19,7 @@ BEGIN {
     requires       => {
         'Sys::Info::Base'              => '0.72',
         'Sys::Info::Driver::' . OSID() => '0.72',
+        ( $] < 5.006 ? ( 'warnings::compat' => 0 ) : ()),
     },
     build_requires => {
         'Test::Sys::Info' => '0.15',

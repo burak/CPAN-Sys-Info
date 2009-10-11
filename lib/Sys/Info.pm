@@ -1,25 +1,24 @@
 package Sys::Info;
 use strict;
-use vars qw( $VERSION @EXPORT_OK );
+use warnings;
 use Carp qw( croak );
 use Sys::Info::Constants qw( OSID );
 
-$VERSION   = '0.73';
-@EXPORT_OK = qw( OSID );
+our $VERSION   = '0.73';
+our @EXPORT_OK = qw( OSID );
 
 __PACKAGE__->_mk_object( $_ ) for qw( OS Device );
 
 sub import {
-    my $class  = shift;
+    my($class, @names) = @_;
     my $caller = caller;
-    my @names  = @_;
     my %cache  = map { $_ => 1 } @EXPORT_OK;
     no strict qw( refs );
     foreach my $name ( @names ) {
         croak "Bogus import: $name"                 if not $class->can($name);
         croak "Caller already has the $name method" if     $caller->can($name);
         croak "Access denied for $name"             if not exists $cache{$name};
-        *{ $caller . '::' . $name } = *{ $class . '::' . $name };
+        *{ $caller . q{::} . $name } = *{ $class . q{::} . $name };
     }
     return;
 }
@@ -31,7 +30,7 @@ sub new {
     return $self;
 }
 
-sub perl { defined $^V ? sprintf( '%vd', $^V ) : _legacy_perl( $] ) }
+sub perl { return defined $^V ? sprintf( '%vd', $^V ) : _legacy_perl( $] ) }
 
 sub perl_build {
     return 0 if OSID ne 'Windows';
@@ -40,7 +39,7 @@ sub perl_build {
     return Win32::BuildNumber();
 }
 
-sub perl_long { join '.', perl(), perl_build() }
+sub perl_long { return join q{.}, perl(), perl_build() }
 
 sub httpd {
     my $self   = shift;
@@ -52,17 +51,17 @@ sub httpd {
 
     if ( $server   =~ m{\A (Apache)/(.+?) \z}xmsi ) {
         my $apache = $1;
-        my @data   = split /\s+/, $2;
+        my @data   = split /\s+/xms, $2;
         my $v      = shift @data;
         my @mods;
         my($mn, $mv);
         foreach my $e (@data) {
             next if $e =~ m{ \A \( .+? \) \z}xms;
-            ($mn,$mv) = split /\//, $e;
-            $mn =~ s,-(.+?)$,,;
-            push @mods, $mn.'('.$mv.')';
+            ($mn,$mv) = split m{/}xms, $e;
+            $mn =~ s{ \-(.+?) \z }{}xms;
+            push @mods, $mn .'(' . $mv . ')';
         }
-        return "$apache $v. Modules: ".join(" ", @mods);
+        return "$apache $v. Modules: " . join q{ }, @mods;
     }
 
    return $server;
@@ -72,11 +71,12 @@ sub httpd {
 
 sub _mk_object {
     my $self  = shift;
-    my $name  = shift || croak "_mk_object() needs a name";
+    my $name  = shift || croak '_mk_object() needs a name';
     my $class = 'Sys::Info::' . $name;
     (my $file = $class) =~ s{::}{/}xmsg;
     no strict qw(refs);
     *{ lc $name } = sub { shift; require "$file.pm"; return "$class"->new(@_) };
+    return;
 }
 
 sub _legacy_perl { # function
@@ -84,7 +84,7 @@ sub _legacy_perl { # function
     my($rev, $patch_sub) = split m{[.]}xms, $v;
     $patch_sub =~ s{[0_]}{}xmsg;
     my @v = split m{}xms, $patch_sub;
-    return sprintf( '%d.%d.%d', $rev, $v[0], $v[1] || '0' );
+    return sprintf '%d.%d.%d', $rev, $v[0], $v[1] || '0';
 }
 
 1;
