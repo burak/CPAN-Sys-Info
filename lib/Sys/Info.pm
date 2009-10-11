@@ -1,11 +1,12 @@
 package Sys::Info;
 use strict;
 use warnings;
-use Carp qw( croak );
+use vars qw( $VERSION @EXPORT_OK );
+use Carp qw( croak    );
 use Sys::Info::Constants qw( OSID );
 
-our $VERSION   = '0.73';
-our @EXPORT_OK = qw( OSID );
+$VERSION   = '0.73';
+@EXPORT_OK = qw( OSID );
 
 __PACKAGE__->_mk_object( $_ ) for qw( OS Device );
 
