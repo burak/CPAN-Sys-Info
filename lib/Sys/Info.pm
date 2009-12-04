@@ -76,7 +76,11 @@ sub _mk_object {
     my $class = 'Sys::Info::' . $name;
     (my $file = $class) =~ s{::}{/}xmsg;
     no strict qw(refs);
-    *{ lc $name } = sub { shift; require "$file.pm"; return "$class"->new(@_) };
+    *{ lc $name } = sub {
+        shift;
+        require "$file.pm"; ## no critic (Modules::RequireBarewordIncludes)
+        return "$class"->new(@_);
+    };
     return;
 }
 
