@@ -77,10 +77,16 @@ sub mb {
 
 sub probe {
    my %bit = (
-      cpu => $cpu->bitness,
-      os  => $os->bitness,
+      cpu => $cpu->bitness || q{??},
+      os  => $os->bitness  || q{??},
    );
-   $bit{$_} ||= q{??} for keys %bit;
+
+   my $bv = eval {
+      $i->device('bios')->version;
+   };
+   my $idate = $meta{'install_date'}
+             ? scalar localtime $meta{'install_date'}
+             : $NA;
 
    my @rv = eval {(
    [ 'Sys::Info Version'         => Sys::Info->VERSION                     ],
@@ -95,13 +101,13 @@ sub probe {
    [ 'Registered Owner'          => $meta{'owner'}               || $NA    ],
    [ 'Registered Organization'   => $meta{'organization'}        || $NA    ],
    [ 'Product ID'                => $meta{'product_id'}          || $NA    ],
-   [ 'Original Install Date'     => scalar localtime $meta{'install_date'} ],
+   [ 'Original Install Date'     => $idate                                 ],
    [ 'System Up Time'            => $up                          || $NA    ],
    [ 'System Manufacturer'       => $meta{'system_manufacturer'} || $NA    ],
    [ 'System Model'              => $meta{'system_model'}        || $NA    ],
    [ 'System Type'               => $meta{'system_type'}         || $NA    ],
    [ 'Processor(s)'              => processors()                 || $NA    ],
-   [ 'BIOS Version'              => $i->device('bios')->version  || $NA    ],
+   [ 'BIOS Version'              => $bv                          || $NA    ],
    [ 'Windows Directory'         => $meta{windows_dir}           || $NA    ],
    [ 'System Directory'          => $meta{system_dir}            || $NA    ],
    [ 'Boot Device'               => $meta{'boot_device'}         || $NA    ],

@@ -4,6 +4,7 @@ use warnings;
 use vars qw( $VERSION @EXPORT_OK );
 use Carp qw( croak    );
 use Sys::Info::Constants qw( OSID );
+use base qw( Sys::Info::Base );
 
 $VERSION   = '0.73';
 @EXPORT_OK = qw( OSID );
@@ -73,13 +74,9 @@ sub httpd {
 sub _mk_object {
     my $self  = shift;
     my $name  = shift || croak '_mk_object() needs a name';
-    my $class = 'Sys::Info::' . $name;
-    (my $file = $class) =~ s{::}{/}xmsg;
     no strict qw(refs);
     *{ lc $name } = sub {
-        shift;
-        require "$file.pm"; ## no critic (Modules::RequireBarewordIncludes)
-        return "$class"->new(@_);
+        shift->load_module( 'Sys::Info::' . $name )->new( @_ );
     };
     return;
 }
@@ -186,19 +183,5 @@ L<Win32API::File>,
 L<Win32API::Net>,
 L<Win32::OLE>,
 L<Win32::TieRegistry>
-
-=head1 AUTHOR
-
-Burak Gürsoy, E<lt>burakE<64>cpan.orgE<gt>
-
-=head1 COPYRIGHT
-
-Copyright 2006-2009 Burak Gürsoy. All rights reserved.
-
-=head1 LICENSE
-
-This library is free software; you can redistribute it and/or modify 
-it under the same terms as Perl itself, either Perl version 5.10.0 or, 
-at your option, any later version of Perl 5 you may have available.
 
 =cut
