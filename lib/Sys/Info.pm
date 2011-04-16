@@ -6,7 +6,7 @@ use Carp qw( croak    );
 use Sys::Info::Constants qw( OSID );
 use base qw( Sys::Info::Base );
 
-$VERSION   = '0.73';
+$VERSION   = '0.78';
 @EXPORT_OK = qw( OSID );
 
 __PACKAGE__->_mk_object( $_ ) for qw( OS Device );
@@ -157,6 +157,7 @@ Returns the OS identifier.
 
 =head1 SEE ALSO
 
+L<Sys::Info::Base>,
 L<Sys::Info::OS>,
 L<Sys::Info::Device>,
 L<Filesys::Ext2>,
