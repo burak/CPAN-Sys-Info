@@ -29,4 +29,9 @@ BEGIN {
             repository => 'http://bitbucket.org/burak/cpan-sys-info/',
         },
     },
+    BUILDER => {
+        change_versions                  => 1,
+        copyright_first_year             => 2006,
+        add_pod_author_copyright_license => 1,
+    },
 }
