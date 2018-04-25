@@ -1,9 +1,0 @@
-lib/Sys/Info.pm
-t/03-basic.t
-t/04-driver.t
-Build.PL
-Changes
-MANIFEST
-README
-TODO
-SPEC
