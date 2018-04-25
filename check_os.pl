@@ -4,7 +4,6 @@
 # This section is used/injected by dzil and not to be executed as a
 # standalone program
 
-use strict;
 # copy-paste from Sys::Info::Constants
 BEGIN {
     if ( ! defined &OSID ) {
