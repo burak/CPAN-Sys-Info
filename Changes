@@ -1,6 +1,8 @@
 Revision history for Perl extension Sys::Info.
 
 {{$NEXT}}
+
+0.7811 2018-12-25 BURAK
     - Migrate to dzil.
 
 0.78 Sat Apr 16 15:20:46 2011
