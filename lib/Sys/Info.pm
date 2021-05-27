@@ -5,7 +5,7 @@ use warnings;
 
 use Carp qw( croak );
 use Sys::Info::Constants qw( OSID );
-use base qw( Sys::Info::Base );
+use parent qw( Sys::Info::Base );
 
 our @EXPORT_OK = qw( OSID );
 
